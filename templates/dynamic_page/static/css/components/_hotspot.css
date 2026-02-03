@@ -1,0 +1,29 @@
+/* FILE: templates/dynamic_page/static/css/components/_hotspot.css */
+/* 功能: (滚动模式专用) 定义热区组件的样式 */
+
+.hotspot {
+    position: absolute;
+    display: block;
+    box-sizing: border-box;
+
+    /*
+       注意: 具体的 background-color 和 border
+       将由 index.html.j2 中内联的 <style> 块根据用户设置动态生成。
+       这里只保留基础布局样式。
+    */
+
+    /*
+       原始样式中的 opacity 和 background-color transition 被移到
+       由Jinja2生成的内联样式中，以确保与用户自定义颜色正确配合。
+    */
+}
+
+.hotspot:hover {
+    /*
+       hover 效果同样由Jinja2生成的内联样式块处理。
+    */
+}
+
+.hotspot.circle {
+    border-radius: 50%;
+}

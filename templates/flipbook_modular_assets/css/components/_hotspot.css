@@ -1,0 +1,29 @@
+/* FILE: templates/flipbook_modular_assets/css/components/_hotspot.css (UPDATED) */
+/* 功能: 包含所有与热区(.hotspot)元素相关的样式。 */
+
+/* --- 热区图层 --- */
+.hotspot-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    /* 关键：让图层的尺寸与父容器(图片)完全一致 */
+    width: 100%;
+    height: 100%;
+    
+    /* 图层本身不响应鼠标事件，只有内部的热区响应 */
+    pointer-events: none;
+}
+
+/* --- 热区基础样式 (保持不变) --- */
+.hotspot {
+    position: absolute;
+    pointer-events: auto;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+/* --- 悬停效果 (保持不变) --- */
+.hotspot:hover {
+    /* 具体的背景色由动态样式定义 */
+}

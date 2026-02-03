@@ -1,0 +1,156 @@
+{# FILE: templates/dynamic_page/scroll_view/index.html.j2 (FINAL BUTTON FIX) #}
+{# 功能: (滚动模式专用) 页面主入口。它继承基础骨架并填充所有内容块。 #}
+{% extends "dynamic_page/base.html.j2" %}
+{% block body_class %}sidebar-collapsed{% endblock %}
+{% block head_extra %}
+<link rel="stylesheet" href="shared_assets/css/hotspot-enhancer.css">
+<style>
+/* --- 动态生成的 CSS: 基于用户首选项 --- */
+{% set ol = hotspot_style.outline %}
+
+/* 1. 侧边栏容器 */
+.sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    z-index: 1000 !important;
+    background-color: rgba(255, 255, 255, 0.95);
+
+    /* 确保移动动画流畅 */
+    transition: transform 0.3s ease-in-out;
+
+    /* 水平对齐: 左或右 */
+    {% if 'right' in ol.position %}
+        right: 0 !important;
+        left: auto !important;
+        border-left: 1px solid #ddd;
+        border-right: none;
+    {% else %}
+        left: 0 !important;
+        right: auto !important;
+        border-right: 1px solid #ddd;
+        border-left: none;
+    {% endif %}
+}
+
+/* 针对折叠状态的处理：将侧边栏移出屏幕 */
+body.sidebar-collapsed .sidebar {
+    {% if 'right' in ol.position %}
+        transform: translateX(100%) !important;
+    {% else %}
+        transform: translateX(-100%) !important;
+    {% endif %}
+}
+
+/* 2. 目录内容区域 */
+.sidebar-content {
+    position: absolute !important;
+    width: 100% !important;
+    max-height: 70vh !important;
+    overflow-y: auto !important;
+    margin: 0 !important;
+
+    /* 字号设置 */
+    font-size: {{ ol.font_size_px }}px !important;
+
+    /* 垂直定位 */
+    {% if 'top' in ol.position %}
+        top: 80px !important;
+        bottom: auto !important;
+        padding-top: 10px !important;
+    {% else %}
+        bottom: 80px !important;
+        top: auto !important;
+        padding-bottom: 10px !important;
+    {% endif %}
+}
+
+/* 3. 切换按钮 (独立固定，不受 transforms 影响) */
+#sidebar-toggle {
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 1002 !important; /* 确保在侧边栏之上 */
+    background: rgba(255,255,255,0.8);
+    border-radius: 4px;
+    cursor: pointer;
+
+    /* 垂直位置 */
+    {% if 'top' in ol.position %}
+        top: 20px !important;
+        bottom: auto !important;
+    {% else %}
+        bottom: 20px !important;
+        top: auto !important;
+    {% endif %}
+
+    /* 水平位置 */
+    {% if 'right' in ol.position %}
+        right: 20px !important;
+        left: auto !important;
+    {% else %}
+        left: 20px !important;
+        right: auto !important;
+    {% endif %}
+}
+
+/* 4. 目录缩进设置 */
+.sidebar-content ul {
+    padding-left: 0;
+}
+.sidebar-content ul ul {
+    padding-left: {{ ol.indent_em }}em !important;
+}
+
+.sidebar-content a {
+    display: block;
+    padding: 5px 15px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    word-wrap: break-word;
+}
+.sidebar-content a:hover {
+    background-color: #f5f5f5;
+    color: #007bff;
+}
+
+{% if hotspot_style %}
+.hotspot {
+    background-color: {{ hotspot_style.fill_color_rgba }};
+    {% if hotspot_style.has_border %}
+    border: {{ hotspot_style.border_width_px }}px solid {{ hotspot_style.border_color_hex }};
+    {% else %}
+    border: none;
+    {% endif %}
+}
+.hotspot:hover {
+    background-color: {{ hotspot_style.hover_fill_color_rgba }};
+}
+.hotspot.circle { border-radius: 50%; }
+{% endif %}
+</style>
+{% endblock %}
+{% block body_main %}
+{% include "dynamic_page/scroll_view/sidebar/sidebar.html.j2" %}
+{% include "dynamic_page/scroll_view/pages/pages_container.html.j2" %}
+<div id="enhancer-root"></div>
+{% endblock %}
+{% block foot_scripts %}
+<script>
+// --- Global configuration object for JavaScript ---
+window.APP_CONFIG = {
+projectTitle: {{ project_title | tojson | safe }},
+pagesToLoad: {{ page_filenames | tojson | safe }},
+controlIconSize: {{ hotspot_style.control_icon_size_px | default(24) }},
+// --- 注入提纲行为设置 ---
+outlineBehavior: '{{ hotspot_style.outline.behavior }}'
+};
+</script>
+<script src="static_scroll/js/layout.js"></script>
+
+<script crossorigin src="js/react.development.js"></script>
+<script crossorigin src="js/react-dom.development.js"></script>
+<script src="js/babel.min.js"></script>
+<script type="text/babel" src="shared_assets/js/hotspot-enhancer.js"></script>
+{% endblock %}

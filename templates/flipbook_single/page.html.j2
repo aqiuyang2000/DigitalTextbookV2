@@ -1,0 +1,36 @@
+<!-- FILE: templates/flipbook_single/page.html.j2 (ENHANCED FOR NEW INTERACTIVITY) -->
+<div
+    class="turn-page"
+    style="background-image:url({{ image_filename }});"
+    page_num="{{ page_num }}"
+>
+    <div class="page-content hotspot-layer">
+        {% for hotspot in hotspots %}
+        <div
+            class="hotspot enhanced-hotspot {% if hotspot.is_circle %}circle{% else %}rectangle{% endif %}"
+
+            data-url="{{ hotspot.href }}"
+            data-target="{{ hotspot.target }}"
+            data-media-type="{{ hotspot.media_type }}"
+            data-icon-type="{{ hotspot.icon_type }}"
+            data-popup-width="{{ hotspot.popup_width }}"
+            data-popup-height="{{ hotspot.popup_height }}"
+            data-description="{{ hotspot.description }}"
+
+            {# --- 核心修改: 添加 data-aspect-ratio 属性 --- #}
+            data-aspect-ratio="{{ hotspot.aspect_ratio }}"
+
+            data-rel-x="{{ hotspot.rel_x }}"
+            data-rel-y="{{ hotspot.rel_y }}"
+            data-rel-w="{{ hotspot.rel_w }}"
+            data-rel-h="{{ hotspot.rel_h }}"
+
+            title="{{ hotspot.description }}"
+            role="button"
+            tabindex="0"
+            aria-label="{{ hotspot.description or 'Interactive area' }}"
+        >
+        </div>
+        {% endfor %}
+    </div>
+</div>

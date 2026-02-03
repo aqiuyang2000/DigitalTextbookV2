@@ -1,0 +1,24 @@
+/* FILE: templates/dynamic_page/static/css/base/_layout.css */
+/* 功能: (滚动模式专用) 定义主内容区的布局样式 */
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.image-section {
+    margin: 20px auto;
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    line-height: 0; /* 移除图片下方的空隙 */
+}
+
+.image-section img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}

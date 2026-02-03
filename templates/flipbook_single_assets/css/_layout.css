@@ -1,0 +1,30 @@
+/* FILE: _layout.css */
+/* 功能: (单页翻书模式) 定义页面的宏观布局结构。 */
+
+/* 使用 Flexbox 进行主布局，将侧边栏和主内容区横向排列 */
+body {
+    display: flex;
+}
+
+/* 
+  主视图容器，它将占据除了侧边栏之外的所有可用空间。
+  这是 Flexbox 布局的核心。
+*/
+#viewer-container {
+    flex-grow: 1; /* 占据所有剩余空间 */
+    height: 100%;
+    position: relative; /* 作为内部绝对定位元素(如翻页按钮)的参照物 */
+
+    /* 使用内部 Flexbox 来轻松地将翻书组件垂直和水平居中 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* 为侧边栏的展开/折叠提供平滑的边距过渡效果 */
+    transition: margin-left var(--sidebar-transition);
+}
+
+/* 当侧边栏折叠时，主视图容器的左边距也变为0 */
+body.sidebar-collapsed #viewer-container {
+    margin-left: 0;
+}

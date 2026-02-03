@@ -1,0 +1,93 @@
+/* FILE: _sidebar.css */
+/* 功能: (单页翻书模式) 包含所有与侧边栏组件相关的样式。 */
+
+/* --- 侧边栏主体 --- */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: #fff;
+    border-right: 1px solid #ddd;
+    flex-shrink: 0; /* 防止侧边栏在空间不足时被压缩 */
+    box-sizing: border-box;
+    transition: width var(--sidebar-transition), min-width var(--sidebar-transition);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-content {
+    padding: 15px;
+    overflow-y: auto; /* 当内容超出时，显示垂直滚动条 */
+    flex-grow: 1;     /* 占据所有可用垂直空间 */
+    opacity: 1;
+    transition: opacity 0.1s;
+}
+
+.sidebar h2 {
+    margin-top: 0;
+    font-size: 1.2em;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+#outline-nav ul {
+    list-style: none;
+    padding-left: 15px;
+}
+
+#outline-nav li {
+    margin: 8px 0;
+}
+
+#outline-nav a {
+    text-decoration: none;
+    color: #333;
+}
+
+#outline-nav a:hover {
+    color: #007bff;
+}
+
+/* --- 侧边栏切换按钮 (仅PC端) --- */
+#sidebar-toggle {
+    position: absolute;
+    top: 50%;
+    right: -15px; /* 按钮一半在内，一半在外 */
+    transform: translateY(-50%);
+    width: 30px;
+    height: 60px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-left: none;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#sidebar-toggle svg {
+    width: 20px;
+    height: 20px;
+    stroke: #333;
+    stroke-width: 2;
+    transition: transform var(--sidebar-transition);
+}
+
+/* --- 折叠状态下的样式 (仅PC端) --- */
+body.sidebar-collapsed .sidebar {
+    width: 0;
+    min-width: 0;
+    border-right-color: transparent;
+}
+
+body.sidebar-collapsed .sidebar-content {
+    opacity: 0;
+    pointer-events: none; /* 隐藏时不可交互 */
+}
+
+body.sidebar-collapsed #sidebar-toggle svg {
+    transform: rotate(180deg);
+}

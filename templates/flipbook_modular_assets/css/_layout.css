@@ -1,0 +1,25 @@
+/* FILE: templates/flipbook_modular_assets/css/_layout.css */
+/* 功能: 定义页面的宏观布局结构。 */
+
+/* 使用 Flexbox 进行主布局 */
+body {
+    display: flex;
+}
+
+/* 
+  主视图容器，它将占据除了侧边栏之外的所有可用空间。
+  这是 Flexbox 布局的核心。
+*/
+#viewer-container {
+    flex-grow: 1; /* 占据所有剩余空间 */
+    height: 100%;
+    position: relative; /* 作为内部绝对定位元素的参照物 */
+
+    /* 用于居中 flipbook 组件 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* 为侧边栏的展开/折叠提供平滑的过渡效果 */
+    transition: margin-left var(--transition-speed) ease;
+}

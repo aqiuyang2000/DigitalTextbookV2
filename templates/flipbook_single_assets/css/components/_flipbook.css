@@ -1,0 +1,29 @@
+/* FILE: _flipbook.css */
+/* 功能: (单页翻书模式) 包含所有与 turn.js 翻书组件相关的样式。 */
+
+/* --- #flipbook 容器 --- */
+#flipbook {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+/* --- .turn-page 页面 --- */
+.turn-page {
+    background-color: white;
+    
+    /* 
+      使用 background-image 来显示页面图片。
+      图片 URL 将在 page.html.j2 模板中通过 style 属性内联。
+    */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* --- 页面加载失败时的错误提示样式 --- */
+.error-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #888;
+}

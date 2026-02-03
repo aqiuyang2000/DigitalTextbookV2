@@ -1,0 +1,31 @@
+{# FILE: templates/flipbook_modular/page.html.j2 (ENHANCED FOR NEW INTERACTIVITY) #}
+{# 功能: 定义一个自包含的页面组件，同时包含视图(图片)和数据(热区)。 #}
+
+<div class="page-content-wrapper">
+    <img src="{{ image_path }}" alt="Page Content" class="page-image">
+    <div class="hotspot-layer">
+        {% for hotspot in hotspots %}
+            <div
+                class="hotspot enhanced-hotspot {% if hotspot.shape == 'ellipse' %}ellipse{% else %}rectangle{% endif %}"
+                style="left: {{ hotspot.rect.x_rel }}%; top: {{ hotspot.rect.y_rel }}%; width: {{ hotspot.rect.w_rel }}%; height: {{ hotspot.rect.h_rel }}%;"
+
+                data-url="{{ hotspot.href }}"
+                data-target="{{ hotspot.target }}"
+                data-media-type="{{ hotspot.media_type }}"
+                data-icon-type="{{ hotspot.icon_type }}"
+                data-popup-width="{{ hotspot.popup_width }}"
+                data-popup-height="{{ hotspot.popup_height }}"
+                data-description="{{ hotspot.description }}"
+
+                {# --- 核心修改: 添加 data-aspect-ratio 属性 --- #}
+                data-aspect-ratio="{{ hotspot.aspect_ratio }}"
+
+                title="{{ hotspot.description }}"
+                role="button"
+                tabindex="0"
+                aria-label="{{ hotspot.description or 'Interactive area' }}"
+                >
+            </div>
+        {% endfor %}
+    </div>
+</div>

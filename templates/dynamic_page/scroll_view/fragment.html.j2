@@ -1,0 +1,31 @@
+{# FILE: templates/dynamic_page/scroll_view/fragment.html.j2 (ENHANCED FOR NEW INTERACTIVITY) #}
+{# 功能: (滚动模式专用) 定义单个页面片段的HTML结构。 #}
+
+<div id="page-{{ page_num }}" class="image-section">
+    <img src="{{ image_filename }}" alt="Page {{ page_num }}" loading="lazy">
+    <div class="hotspot-layer">
+    {% for hotspot in hotspots %}
+        <div
+            class="hotspot enhanced-hotspot {% if hotspot.is_circle %}circle{% else %}rectangle{% endif %}"
+            style="left: {{ hotspot.rel_x }}%; top: {{ hotspot.rel_y }}%; width: {{ hotspot.rel_w }}%; height: {{ hotspot.rel_h }}%;"
+
+            data-url="{{ hotspot.href }}"
+            data-target="{{ hotspot.target }}"
+            data-media-type="{{ hotspot.media_type }}"
+            data-icon-type="{{ hotspot.icon_type }}"
+            data-popup-width="{{ hotspot.popup_width }}"
+            data-popup-height="{{ hotspot.popup_height }}"
+            data-description="{{ hotspot.description }}"
+
+            {# --- 核心修改: 添加 data-aspect-ratio 属性 --- #}
+            data-aspect-ratio="{{ hotspot.aspect_ratio }}"
+
+            title="{{ hotspot.description }}"
+            role="button"
+            tabindex="0"
+            aria-label="{{ hotspot.description or 'Interactive area' }}"
+            >
+        </div>
+    {% endfor %}
+    </div>
+</div>

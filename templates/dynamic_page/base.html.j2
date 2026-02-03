@@ -1,0 +1,25 @@
+{# FILE: templates/dynamic_page/base.html.j2 (Corrected) #}
+{# 功能: (滚动模式专用) 定义页面的基础HTML骨架。 #}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ project_title | default('动态滚动页面') }}</title>
+
+    {# 引用专属的CSS文件 #}
+    <link rel="stylesheet" href="static_scroll/css/main.css">
+
+    {# 为子模板提供一个可以插入额外头部内容（如 <style> 标签）的位置 #}
+    {% block head_extra %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+    {# 主内容区域，将被子模板填充 #}
+    {% block body_main %}{% endblock %}
+
+    {# 脚本区域，将被子模板填充 #}
+    {% block foot_scripts %}{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+/* FILE: templates/dynamic_page/static/css/utils/_responsive.css */
+/* 功能: (滚动模式专用) 定义所有响应式媒体查询 */
+
+/* --- 移动端适配 --- */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        overflow-y: auto;
+        height: auto;
+    }
+
+    .sidebar {
+        width: 100% !important; /* Force full width on mobile */
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid #dcdfe6;
+    }
+
+    .sidebar-content {
+        width: 100%;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .content {
+        height: auto;
+        overflow-y: visible;
+        padding: 10px;
+    }
+
+    #sidebar-toggle {
+        display: none; /* Hide toggle button on mobile */
+    }
+
+    #back-to-top-btn {
+        display: flex; /* Always show the button container on mobile, visibility is controlled by JS */
+    }
+}
+
+/* --- 超大屏幕适配 --- */
+@media (min-width: 1921px) {
+    #sidebar-toggle {
+        top: auto;
+        bottom: 10px;
+        right: 5px;
+    }
+
+    body.sidebar-collapsed #sidebar-toggle {
+        bottom: 10px;
+        right: 5px;
+    }
+}

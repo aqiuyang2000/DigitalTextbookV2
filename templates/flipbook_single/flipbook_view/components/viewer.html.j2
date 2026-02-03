@@ -1,0 +1,18 @@
+{# FILE: templates/flipbook_single/flipbook_view/components/viewer.html.j2 #}
+{# 功能: (单页翻书模式专用) 定义主视觉区，包含翻书容器和导航按钮。 #}
+
+<div id="viewer-container">
+    <div id="flipbook"></div>
+
+    <button id="prev-page" class="flip-nav" aria-label="Previous Page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M15 18L9 12L15 6" />
+        </svg>
+    </button>
+
+    <button id="next-page" class="flip-nav" aria-label="Next Page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M9 18L15 12L9 6" />
+        </svg>
+    </button>
+</div>

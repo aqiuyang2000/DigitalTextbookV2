@@ -1,0 +1,51 @@
+/* FILE: templates/flipbook_modular_assets/css/components/_flipbook.css (UPDATED) */
+/* 功能: 包含所有与 turn.js 翻书组件相关的样式。 */
+
+/* --- 翻书容器 #flipbook (保持不变) --- */
+#flipbook {
+    box-shadow: 0 0 20px rgba(0,0,0,.2);
+    transition: transform 0.2s ease-out;
+    transform-origin: center center;
+}
+
+#flipbook.zoomable {
+    cursor: grab;
+}
+
+#flipbook.dragging {
+    cursor: grabbing;
+}
+
+/* --- 页面样式 .page (保持不变) --- */
+#flipbook .page {
+    background-color: #fff;
+}
+
+
+/* --- (新增) 页面内容包装器 --- */
+.page-content-wrapper {
+    position: relative; /* 关键：为内部的 hotspot-layer 提供定位上下文 */
+    width: 100%;
+    height: 100%;
+}
+
+/* --- (修改) 图片样式 --- */
+.page-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* --- 页面加载失败时的占位符样式 (保持不变) --- */
+.page-placeholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f3;
+    color: #888;
+    text-align: center;
+}

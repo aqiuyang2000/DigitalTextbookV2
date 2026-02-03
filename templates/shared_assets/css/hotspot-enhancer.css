@@ -1,0 +1,75 @@
+/* FILE: D:\projects\singlepage\hotspot_editor\templates\shared_assets\css\hotspot-enhancer.css (Hover Fix) */
+
+/* --- 1. General Hotspot Enhancements --- */
+.enhanced-hotspot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    box-sizing: border-box;
+    position: absolute;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    opacity: 1 !important;
+}
+
+/* --- 2. Icon Styling --- */
+.enhanced-hotspot::before {
+    content: ''; display: block; width: 36px; height: 36px;
+    background-size: contain; background-repeat: no-repeat; background-position: center;
+    opacity: 0; /* Icons are invisible by default */
+    transform: scale(0.8);
+    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center;
+    mask-size: contain; mask-repeat: no-repeat; mask-position: center;
+    background-color: #ffffff;
+}
+
+/* --- *** 核心修改: 只在悬停单个热区时显示其图标 *** --- */
+/* Show and style icon ONLY on individual hotspot hover */
+.enhanced-hotspot:hover::before {
+    opacity: 1; /* Make fully visible */
+    transform: scale(1);
+    background-color: #34d399; /* A bright green color on hover */
+}
+/* --- *** 修改结束 *** --- */
+
+
+/* --- 3. Specific Icon Masks --- */
+.enhanced-hotspot[data-icon-type="link"]::before { -webkit-mask-image: url('../icons/link.svg'); mask-image: url('../icons/link.svg'); }
+.enhanced-hotspot[data-icon-type="audio"]::before { -webkit-mask-image: url('../icons/audio.svg'); mask-image: url('../icons/audio.svg'); }
+.enhanced-hotspot[data-icon-type="video"]::before,
+.enhanced-hotspot[data-media-type="video_url"]::before { -webkit-mask-image: url('../icons/video.svg'); mask-image: url('../icons/video.svg'); }
+.enhanced-hotspot[data-icon-type="image"]::before { -webkit-mask-image: url('../icons/image.svg'); mask-image: url('../icons/image.svg'); }
+.enhanced-hotspot[data-icon-type="pdf"]::before { -webkit-mask-image: url('../icons/pdf.svg'); mask-image: url('../icons/pdf.svg'); }
+.enhanced-hotspot[data-icon-type="default"]::before { -webkit-mask-image: url('../icons/default.svg'); mask-image: url('../icons/default.svg'); }
+
+/* --- 4. Audio Playback Animation --- */
+.enhanced-hotspot[data-is-playing="true"]::before { opacity: 1; transform: scale(1.1); background-color: #6ee7b7; }
+.audio-pulse-ring { position: absolute; border-radius: 50%; border: 2px solid rgba(110, 231, 183, 0.7); animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; pointer-events: none; }
+@keyframes pulse-ring { 0% { transform: scale(0.8); opacity: 0.7; } 100% { transform: scale(2.5); opacity: 0; } }
+
+/* --- 5. Modal Styling & Animation --- */
+.enhancer-modal-overlay { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; background-color: transparent; font-family: sans-serif; }
+.enhancer-modal-animation-container { position: absolute; width: 100%; height: 100%; transition: clip-path 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease-out; }
+.enhancer-modal-content-wrapper { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 1rem; box-sizing: border-box; }
+.enhancer-modal-content { position: relative; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden; transition: all 0.3s ease-in-out; max-width: 95vw; max-height: 95vh; }
+.enhancer-modal-content img, .enhancer-modal-content video, .enhancer-modal-content iframe { width: 100%; height: 100%; object-fit: contain; border: 0; }
+
+/* --- 6. Aspect Ratio Helpers --- */
+.aspect-ratio-16-9 { aspect-ratio: 16 / 9; }
+.aspect-ratio-4-3 { aspect-ratio: 4 / 3; }
+.aspect-ratio-9-16 { aspect-ratio: 9 / 16; }
+.aspect-ratio-1-1 { aspect-ratio: 1 / 1; }
+
+/* --- 7. Video/Iframe Player Custom Controls --- */
+.enhancer-video-controls-bg { position: absolute; bottom: 0; left: 0; right: 0; color: white; padding: 1rem; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); transition: opacity 0.3s; }
+.enhancer-modal-content input[type=range] { -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; width: 100%; }
+.enhancer-modal-content input[type=range]:focus { outline: none; }
+.enhancer-modal-content input[type=range]::-webkit-slider-runnable-track { background: rgba(255, 255, 255, 0.3); height: 0.25rem; border-radius: 0.25rem; }
+.enhancer-modal-content input[type=range]::-moz-range-track { background: rgba(255, 255, 255, 0.3); height: 0.25rem; border-radius: 0.25rem; }
+.enhancer-modal-content input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; margin-top: -0.375rem; background-color: #34d399; height: 1rem; width: 1rem; border-radius: 9999px; }
+.enhancer-modal-content input[type=range]::-moz-range-thumb { border: none; border-radius: 9999px; background-color: #34d399; height: 1rem; width: 1rem; }
+.enhancer-modal-close-button { position: absolute; top: 0.5rem; right: 0.5rem; color: white; background-color: rgba(0, 0, 0, 0.5); border-radius: 9999px; padding: 0.5rem; cursor: pointer; z-index: 20; border: none; }
+.enhancer-modal-close-button:hover { background-color: rgba(0, 0, 0, 0.8); }

@@ -1,0 +1,102 @@
+/* FILE: templates/dynamic_page/static/css/components/_sidebar.css */
+/* 功能: (滚动模式专用) 定义侧边栏组件的所有样式 */
+
+/* --- 侧边栏容器 --- */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: #ffffff;
+    border-right: 1px solid #dcdfe6;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    transition: width var(--transition-speed) ease;
+    position: relative;
+}
+
+.sidebar-content {
+    width: var(--sidebar-width);
+    padding: 15px;
+    box-sizing: border-box;
+    overflow: hidden; /* 确保内容不会在折叠时溢出 */
+}
+
+/* --- 侧边栏内容 (标题、列表) --- */
+.sidebar-content h2, .sidebar-content ul {
+    transition: opacity 0.2s ease;
+    opacity: 1;
+}
+
+.sidebar h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    color: #303133;
+}
+
+.sidebar ul {
+    padding-left: 20px;
+    list-style-type: none;
+    margin: 0;
+}
+
+.sidebar ul ul {
+    padding-left: 15px;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #606266;
+    display: block;
+    padding: 6px 0;
+    transition: color 0.2s;
+}
+
+.sidebar a:hover {
+    color: #409eff;
+}
+
+/* --- 切换按钮 --- */
+#sidebar-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform var(--transition-speed) ease;
+    z-index: 10;
+}
+
+#sidebar-toggle:hover {
+    background-color: #f0f2f5;
+}
+
+#sidebar-toggle svg {
+    width: 20px;
+    height: 20px;
+    stroke: #606266;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    transition: transform var(--transition-speed) ease;
+}
+
+/* --- 折叠状态 --- */
+body.sidebar-collapsed .sidebar {
+    width: var(--sidebar-width-collapsed);
+}
+
+body.sidebar-collapsed .sidebar-content {
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.sidebar-collapsed #sidebar-toggle {
+    transform: rotate(180deg);
+    right: 5px; /* 调整折叠后按钮的位置 */
+}

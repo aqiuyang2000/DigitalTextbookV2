@@ -1,0 +1,18 @@
+/* FILE: _base.css */
+/* 功能: (单页翻书模式) 定义全局基础样式、CSS变量和字体等。 */
+
+/* 定义CSS变量 (Custom Properties)，便于全局统一修改主题 */
+:root {
+    --sidebar-width: 250px;
+    --sidebar-transition: 0.3s ease;
+}
+
+/* 基础重置和页面默认样式 */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* 防止出现浏览器级别的滚动条 */
+    background-color: #f0f0f3;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}

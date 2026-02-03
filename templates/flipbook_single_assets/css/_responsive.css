@@ -1,0 +1,50 @@
+/* FILE: _responsive.css */
+/* 功能: (单页翻书模式) 包含所有用于适配移动端设备的响应式样式。 */
+
+@media (max-width: 992px) {
+    /* 
+      1. 将主布局从横向(flex-direction: row)变为纵向(flex-direction: column)，
+         让侧边栏显示在主视图区的上方。
+    */
+    body {
+        flex-direction: column;
+    }
+
+    /* 2. 调整侧边栏样式以适应移动端 */
+    .sidebar {
+        width: 100%;       /* 宽度占满 */
+        height: auto;      /* 高度由内容决定 */
+        max-height: 40vh;  /* 最大高度不超过屏幕的40%，防止目录过长 */
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        transition: none;  /* 禁用PC端的展开/折叠动画 */
+        overflow: hidden;  /* 防止内容溢出 */
+    }
+
+    /* 3. 在移动端隐藏PC版的侧边栏切换按钮 */
+    #sidebar-toggle {
+        display: none;
+    }
+
+    /* 4. 微调侧边栏内容区域的内边距 */
+    .sidebar-content {
+        padding: 10px;
+    }
+
+    /* 5. 将目录标题变为可点击的“手风琴”开关 */
+    #outline-title {
+        cursor: pointer;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    /* 6. 默认隐藏目录导航，等待JS通过点击来显示 */
+    #outline-nav {
+        display: none;
+    }
+
+    /* 7. 确保在移动端折叠状态下，主内容区没有左边距 */
+    body.sidebar-collapsed #viewer-container {
+        margin-left: 0;
+    }
+}

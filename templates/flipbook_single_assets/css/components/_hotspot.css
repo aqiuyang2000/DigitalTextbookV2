@@ -1,0 +1,38 @@
+/* FILE: _hotspot.css */
+/* 功能: (单页翻书模式) 包含所有与热区(.hotspot)元素相关的样式。 */
+/*       在新版模板中，这部分样式被移除了，因为 page.html.j2 中不再有 .page-container 等元素。*/
+/*       但是为了保持结构完整性，我们保留这个文件，并将相关样式放在这里。*/
+
+
+/* 
+  .page-content 层覆盖在 .turn-page 之上，作为热区的容器。
+  它的尺寸由 turn.js 自动管理。
+*/
+.page-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* 允许鼠标事件穿透到下面的热区a标签 */
+}
+
+/* --- 热区基础样式 --- */
+.hotspot {
+    position: absolute;
+    box-sizing: border-box;
+    pointer-events: auto; /* 恢复热区自身的鼠标事件 */
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background-color 0.2s, opacity 0.2s;
+    
+    /* 
+      注意：背景色和边框的具体值由 index.html.j2 中
+      通过 <style> 标签注入的动态样式来定义。
+    */
+}
+
+/* --- 形状修饰符 --- */
+.hotspot.circle {
+    border-radius: 50%;
+}

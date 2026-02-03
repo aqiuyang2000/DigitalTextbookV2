@@ -1,0 +1,17 @@
+{# FILE: templates/flipbook_single/flipbook_view/components/sidebar.html.j2 (BUTTON MOVED OUTSIDE) #}
+{# 功能: (单页翻书模式专用) 定义侧边栏组件的HTML结构。 #}
+{#
+核心修复: 将切换按钮移到 <nav> 标签外部。
+这样当 .sidebar 被隐藏/移出屏幕时，按钮仍然保留在页面上。
+#}
+<button id="sidebar-toggle" aria-label="Toggle Navigation">
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 18L9 12L15 6" />
+</svg>
+</button>
+<nav class="sidebar">
+<div class="sidebar-content">
+<h2 id="outline-title">目录</h2>
+<div id="outline-nav">{{ nav_html | safe }}</div>
+</div>
+</nav>

@@ -1,0 +1,82 @@
+/* FILE: templates/flipbook_modular_assets/css/components/_sidebar.css */
+/* 功能: 包含所有与侧边栏组件相关的样式。 */
+
+/* --- 侧边栏主体 --- */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: #ffffff;
+    border-right: 1px solid #dcdfe6;
+    flex-shrink: 0; /* 防止侧边栏在空间不足时被压缩 */
+    box-sizing: border-box;
+    transition: width var(--transition-speed) ease;
+    position: relative;
+    overflow-x: hidden;
+    padding-top: 50px; /* 为标题留出空间 */
+}
+
+.sidebar-content {
+    width: var(--sidebar-width); /* 固定宽度以防止内容在动画期间换行 */
+    padding: 15px;
+    box-sizing: border-box;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.sidebar h3 {
+    margin-top: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding-left: 10px;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #333;
+}
+
+/* --- 侧边栏切换按钮 --- */
+#sidebar-toggle {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1001; /* 确保在最上层 */
+    width: 40px;
+    height: 40px;
+    background-color: #ffffff;
+    border: 1px solid #dcdfe6;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--transition-speed) ease, left var(--transition-speed) ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+#sidebar-toggle svg {
+    width: 24px;
+    height: 24px;
+    stroke: #606266;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    transition: transform var(--transition-speed) ease;
+}
+
+/* --- 折叠状态下的样式 --- */
+body.sidebar-collapsed .sidebar {
+    width: var(--sidebar-width-collapsed);
+    border-right-color: transparent;
+}
+
+body.sidebar-collapsed .sidebar-content {
+    opacity: 0;
+    pointer-events: none; /* 隐藏时不可交互 */
+}
+
+body.sidebar-collapsed #sidebar-toggle {
+    left: 20px;
+    transform: rotate(180deg);
+}

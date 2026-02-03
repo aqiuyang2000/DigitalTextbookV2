@@ -1,0 +1,157 @@
+{# FILE: templates/flipbook_single/flipbook_view/index.html.j2 (CONFIG-DRIVEN LAYOUT) #}
+{# 功能: (单页翻书模式专用) 页面主入口。继承基础骨架并填充所有内容块。 #}
+
+{% extends "flipbook_single/base.html.j2" %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="shared_assets/css/hotspot-enhancer.css">
+
+<style>
+/* --- 动态生成的 CSS: 基于用户首选项 --- */
+{% set ol = hotspot_style.outline %}
+
+/* 1. 侧边栏容器 */
+.sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    z-index: 1000 !important;
+    background-color: rgba(255, 255, 255, 0.95);
+
+    /* 水平对齐: 左或右 */
+    {% if 'right' in ol.position %}
+        right: 0 !important;
+        left: auto !important;
+        border-left: 1px solid #ddd;
+        border-right: none;
+    {% else %}
+        left: 0 !important;
+        right: auto !important;
+        border-right: 1px solid #ddd;
+        border-left: none;
+    {% endif %}
+}
+
+/* 2. 目录内容区域 */
+.sidebar-content {
+    position: absolute !important;
+    width: 100% !important;
+    max-height: 70vh !important;
+    overflow-y: auto !important;
+    margin: 0 !important;
+
+    /* 字号设置 */
+    font-size: {{ ol.font_size_px }}px !important;
+
+    /* 垂直定位: 靠上 或 靠下 */
+    {% if 'top' in ol.position %}
+        /* 靠上: 留出顶部按钮空间 */
+        top: 80px !important;
+        bottom: auto !important;
+        padding-top: 10px !important;
+    {% else %}
+        /* 靠下: 留出底部按钮空间 */
+        bottom: 80px !important;
+        top: auto !important;
+        padding-bottom: 10px !important;
+    {% endif %}
+}
+
+/* 3. 切换按钮 */
+#sidebar-toggle {
+    position: fixed !important;
+    transform: none !important;
+    margin: 0 !important;
+    z-index: 1002 !important;
+
+    /* 垂直位置 */
+    {% if 'top' in ol.position %}
+        top: 20px !important;
+        bottom: auto !important;
+    {% else %}
+        bottom: 20px !important;
+        top: auto !important;
+    {% endif %}
+
+    /* 水平位置 */
+    {% if 'right' in ol.position %}
+        right: 20px !important;
+        left: auto !important;
+    {% else %}
+        left: 20px !important;
+        right: auto !important;
+    {% endif %}
+}
+
+/* 4. 目录缩进设置 */
+.sidebar-content ul {
+    padding-left: 0; /* 顶级无缩进 */
+}
+.sidebar-content ul ul {
+    padding-left: {{ ol.indent_em }}em !important; /* 子级动态缩进 */
+}
+
+/* 目录链接基础样式优化 */
+.sidebar-content a {
+    display: block;
+    padding: 5px 15px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    word-wrap: break-word;
+}
+.sidebar-content a:hover {
+    background-color: #f5f5f5;
+    color: #007bff;
+}
+
+/* --- 热区样式 --- */
+{% if hotspot_style %}
+.hotspot {
+    background-color: {{ hotspot_style.fill_color_rgba }};
+    {% if hotspot_style.has_border %}
+    border: {{ hotspot_style.border_width_px }}px solid {{ hotspot_style.border_color_hex }};
+    {% else %}
+    border: none;
+    {% endif %}
+}
+.hotspot:hover {
+    background-color: {{ hotspot_style.hover_fill_color_rgba }};
+}
+{% endif %}
+</style>
+
+<script type="text/javascript" src="static_single/js/jquery.min.js"></script>
+<script type="text/javascript" src="static_single/js/modernizr.min.js"></script>
+<script type="text/javascript" src="static_single/js/turn.min.js"></script>
+
+{% endblock %}
+
+{% block body_main %}
+{% include "flipbook_single/flipbook_view/components/sidebar.html.j2" %}
+{% include "flipbook_single/flipbook_view/components/viewer.html.j2" %}
+<div id="enhancer-root"></div>
+{% endblock %}
+
+{% block foot_scripts %}
+<script>
+// --- Global configuration object for JavaScript ---
+window.APP_CONFIG = {
+projectTitle: {{ project_title | tojson | safe }},
+pagesData: {{ pages_data_json | safe }},
+controlIconSize: {{ hotspot_style.control_icon_size_px | default(24) }},
+
+// --- *** 核心修改: 注入提纲行为设置 *** ---
+        outlineBehavior: '{{ hotspot_style.outline.behavior }}' // 'auto_hide' or 'fixed'
+    };
+</script>
+
+<script type="module" src="static_single/js/main.js"></script>
+
+<script crossorigin src="js/react.development.js"></script>
+<script crossorigin src="js/react-dom.development.js"></script>
+<script src="js/babel.min.js"></script>
+<script type="text/babel" src="shared_assets/js/hotspot-enhancer.js"></script>
+
+{% endblock %}

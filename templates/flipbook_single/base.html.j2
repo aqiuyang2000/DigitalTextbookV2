@@ -1,0 +1,27 @@
+{# FILE: templates/flipbook_single/base.html.j2 #}
+{# 功能: (单页翻书模式专用) 定义整个页面的基础HTML骨架。 #}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>{{ project_title }}</title>
+
+    {# --- *** 核心修复: 从专属的 static_single 目录加载 CSS *** --- #}
+    <link rel="stylesheet" href="static_single/css/main.css">
+
+    {# --- Block for extra head content --- #}
+    {% block head_extra %}{% endblock %}
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+
+    {# --- Block for the main body content --- #}
+    {% block body_main %}{% endblock %}
+
+
+    {# --- Block for JavaScript files --- #}
+    {% block foot_scripts %}{% endblock %}
+
+</body>
+</html>

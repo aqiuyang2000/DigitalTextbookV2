@@ -1,0 +1,31 @@
+{# FILE: templates/flipbook_modular/base.html.j2 #}
+{# 功能: (双页翻书模式) 定义页面的基础HTML骨架。 #}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ project_title }}</title>
+
+    {# 
+      1. 链接到外部主CSS文件。
+         这个路径是相对于最终导出的 index.html 而言的。
+         我们的Python脚本会将 `flipbook_modular_assets` 目录下的内容
+         复制到输出目录的 `static_flip` 文件夹中。
+    #}
+    <link rel="stylesheet" href="static_flip/css/main.css">
+
+    {# 2. 为子模板提供一个可以插入额外头部内容（如动态 <style> 标签）的位置 #}
+    {% block head_extra %}{% endblock %}
+</head>
+
+{# 3. 允许子模板自定义 body 的 class #}
+<body class="{% block body_class %}{% endblock %}">
+
+    {# 4. 主内容区域，将被子模板填充 #}
+    {% block body_main %}{% endblock %}
+
+    {# 5. 脚本区域，将被子模板填充 #}
+    {% block foot_scripts %}{% endblock %}
+
+</body>
+</html>

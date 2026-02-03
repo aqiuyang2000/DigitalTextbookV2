@@ -1,0 +1,49 @@
+/* FILE: _navigation.css */
+/* 功能: (单页翻书模式) 包含左右翻页按钮的样式。 */
+
+.flip-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10; /* 确保在翻书组件之上 */
+    
+    /* 使用 Flexbox 轻松居中内部的 SVG 图标 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: opacity 0.2s, transform 0.2s;
+    opacity: 0.5; /* 默认半透明 */
+}
+
+.flip-nav:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.05); /* 悬停时放大一点 */
+}
+
+.flip-nav svg {
+    width: 24px;
+    height: 24px;
+    stroke: #555;
+    stroke-width: 2.5;
+}
+
+/* --- 定位左右按钮 --- */
+#prev-page {
+    left: 20px;
+}
+
+#next-page {
+    right: 20px;
+}
+
+#next-page svg {
+    transform: rotate(180deg); /* 翻转左箭头图标来得到右箭头 */
+}

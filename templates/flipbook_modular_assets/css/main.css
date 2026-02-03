@@ -1,0 +1,14 @@
+/* FILE: templates/flipbook_modular_assets/css/main.css */
+/* 功能: (双页翻书模式) CSS主入口文件。 */
+/*       它按顺序导入所有CSS模块来构建最终样式。 */
+
+/* 1. 导入全局基础样式和变量 */
+@import url('_base.css');
+
+/* 2. 导入宏观布局样式 */
+@import url('_layout.css');
+
+/* 3. 导入所有UI组件的样式 */
+@import url('components/_sidebar.css');
+@import url('components/_flipbook.css');
+@import url('components/_hotspot.css');

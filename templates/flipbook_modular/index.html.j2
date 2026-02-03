@@ -1,0 +1,288 @@
+{# FILE: templates/flipbook_modular/index.html.j2 (CONFIG-DRIVEN LAYOUT) #}
+{# 功能: (双页翻书模式) 页面主入口。继承基础骨架并填充所有内容块。 #}
+
+{% extends "flipbook_modular/base.html.j2" %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="shared_assets/css/hotspot-enhancer.css">
+{% if hotspot_style %}
+<style id="dynamic-hotspot-styles">
+.hotspot {
+{% if hotspot_style.has_border %}
+border: {{ hotspot_style.border_width_px }}px solid {{ hotspot_style.border_color_hex }};
+{% else %}
+border: 2px solid transparent;
+{% endif %}
+}
+.hotspot:hover {
+background-color: {{ hotspot_style.hover_fill_color_rgba }};
+{% if hotspot_style.has_border %}
+border-color: {{ hotspot_style.border_color_hex }};
+{% endif %}
+}
+.hotspot.ellipse {
+border-radius: 50%;
+}
+</style>
+{% endif %}
+
+<style>
+/* --- 动态生成的 CSS: 基于用户首选项 --- */
+{% set ol = hotspot_style.outline %}
+
+/* 1. 侧边栏容器 */
+.sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    z-index: 1000 !important;
+    background-color: rgba(255, 255, 255, 0.95);
+
+    /* 水平对齐: 左或右 */
+    {% if 'right' in ol.position %}
+        right: 0 !important;
+        left: auto !important;
+        border-left: 1px solid #ddd;
+        border-right: none;
+    {% else %}
+        left: 0 !important;
+        right: auto !important;
+        border-right: 1px solid #ddd;
+        border-left: none;
+    {% endif %}
+}
+
+/* 2. 目录内容区域 */
+.sidebar-content {
+    position: absolute !important;
+    width: 100% !important;
+    max-height: 70vh !important;
+    overflow-y: auto !important;
+    margin: 0 !important;
+
+    /* 字号设置 */
+    font-size: {{ ol.font_size_px }}px !important;
+
+    /* 垂直定位: 靠上 或 靠下 */
+    {% if 'top' in ol.position %}
+        top: 80px !important;
+        bottom: auto !important;
+        padding-top: 10px !important;
+    {% else %}
+        bottom: 80px !important;
+        top: auto !important;
+        padding-bottom: 10px !important;
+    {% endif %}
+}
+
+/* 3. 切换按钮 */
+#sidebar-toggle {
+    position: fixed !important;
+    transform: none !important;
+    margin: 0 !important;
+    z-index: 1002 !important;
+
+    /* 垂直位置 */
+    {% if 'top' in ol.position %}
+        top: 20px !important;
+        bottom: auto !important;
+    {% else %}
+        bottom: 20px !important;
+        top: auto !important;
+    {% endif %}
+
+    /* 水平位置 */
+    {% if 'right' in ol.position %}
+        right: 20px !important;
+        left: auto !important;
+    {% else %}
+        left: 20px !important;
+        right: auto !important;
+    {% endif %}
+}
+
+/* 4. 目录缩进设置 */
+.sidebar-content ul {
+    padding-left: 0;
+}
+.sidebar-content ul ul {
+    padding-left: {{ ol.indent_em }}em !important;
+}
+
+/* 基础样式微调 */
+.sidebar-content h3 {
+    padding: 10px 15px;
+    margin: 0;
+    border-bottom: 1px solid #eee;
+    background: #f8f9fa;
+}
+.sidebar-content li {
+    list-style: none;
+}
+.sidebar-content a {
+    display: block;
+    padding: 8px 15px;
+    text-decoration: none;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+}
+.sidebar-content a:hover {
+    background-color: #e9ecef;
+    color: #0056b3;
+}
+</style>
+
+{% endblock %}
+
+{% block body_class %}sidebar-collapsed{% endblock %}
+
+{% block body_main %}
+{% include "flipbook_modular/components/sidebar.html.j2" %}
+{% include "flipbook_modular/components/viewer.html.j2" %}
+<div id="enhancer-root"></div>
+{% endblock %}
+
+{% block foot_scripts %}
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/modernizr.min.js"></script>
+<script type="text/javascript" src="js/turn.min.js"></script>
+
+<script>
+    // --- 创建全局配置对象 ---
+    window.APP_CONFIG = {
+        projectTitle: {{ project_title | tojson | safe }},
+        totalPages: {{ total_pages | default(0) }},
+        controlIconSize: {{ hotspot_style.control_icon_size_px | default(24) }},
+        // --- *** 核心修改: 注入提纲行为设置 *** ---
+        outlineBehavior: '{{ hotspot_style.outline.behavior }}'
+    };
+</script>
+
+<script type="module" src="static_flip/js/main.js"></script>
+
+<script crossorigin src="js/react.development.js"></script>
+<script crossorigin src="js/react-dom.development.js"></script>
+<script src="js/babel.min.js"></script>
+<script type="text/babel" src="shared_assets/js/hotspot-enhancer.js"></script>
+
+{% endblock %}
+
+文件 2: templates/flipbook_modular_assets/js/modules/sidebar.js
+
+这是 双页翻书模式 对应的交互逻辑。请使用以下代码完全替换该文件。
+
+--- 文件路径: D:\projects\singlepage\hotspot_editor\templates\flipbook_modular_assets\js\modules\sidebar.js ---
+// FILE: templates/flipbook_modular_assets/js/modules/sidebar.js
+// 功能: 封装所有与侧边栏相关的交互逻辑。
+
+'use strict';
+
+import { resetZoomAndPan } from './zoom.js';
+
+/**
+
+初始化侧边栏功能。
+*/
+export function initSidebar() {
+
+const $body = $('body');
+const $sidebarToggle = $('#sidebar-toggle');
+const $container = $("#viewer-container");
+const $outlineNav = $('#outline-nav');
+const $flipbook = $("#flipbook");
+
+// 获取配置对象 (APP_CONFIG 在 index.html 中定义)
+const APP_CONFIG = window.APP_CONFIG || {};
+const outlineBehavior = APP_CONFIG.outlineBehavior || 'auto_hide';
+
+// 状态键名
+const sidebarStateKey = sidebarState__${APP_CONFIG.projectTitle ? APP_CONFIG.projectTitle.replace(/\s+/g, "_") : 'default_modular'};
+
+/**
+
+设置侧边栏的折叠状态。
+
+@param {boolean} collapsed - 是否折叠。
+
+@param {boolean} animate - 是否在状态改变后触发窗口尺寸重绘。
+*/
+function setSidebarCollapsed(collapsed, animate) {
+if (collapsed) {
+$body.addClass('sidebar-collapsed');
+} else {
+$body.removeClass('sidebar-collapsed');
+}
+
+// 只有在非固定模式下，才保存用户偏好
+if (outlineBehavior !== 'fixed') {
+localStorage.setItem(sidebarStateKey, collapsed ? 'collapsed' : 'expanded');
+}
+
+// 如果需要动画，延迟触发 resize 事件
+if (animate) {
+setTimeout(() => {
+$(window).trigger('resize');
+}, 350);
+}
+}
+
+/**
+
+恢复侧边栏初始状态。
+*/
+function restoreSidebarState() {
+// 固定模式：强制展开
+if (outlineBehavior === 'fixed') {
+setSidebarCollapsed(false, false);
+return;
+}
+
+// 自动模式：读取记忆或根据屏幕宽度判断
+if (localStorage.getItem(sidebarStateKey) === 'collapsed') {
+setSidebarCollapsed(true, false);
+} else if ($(window).width() > 992) {
+setSidebarCollapsed(false, false);
+} else {
+setSidebarCollapsed(true, false);
+}
+}
+
+// --- 事件绑定 ---
+
+// 1. 切换按钮点击事件
+
+body.hasClass('sidebar-collapsed'), true);
+});
+
+// 2. 点击主内容区时自动折叠
+
+(event.target).closest('#flipbook').length === 0) {
+if (!$body.hasClass('sidebar-collapsed')) {
+setSidebarCollapsed(true, true);
+}
+}
+}
+});
+
+// 3. 目录链接点击事件
+$outlineNav.on('click', 'a', function(e) {
+e.preventDefault();
+e.stopPropagation();
+
+const page = $(this).data('page');
+ if (page) {
+     resetZoomAndPan();
+     $flipbook.turn('page', page);
+ }
+
+});
+
+// --- 初始化 ---
+restoreSidebarState();
+
+// 再次确认：如果是固定模式，移除 CSS 类
+if (outlineBehavior === 'fixed') {
+$body.removeClass('sidebar-collapsed');
+}
+}

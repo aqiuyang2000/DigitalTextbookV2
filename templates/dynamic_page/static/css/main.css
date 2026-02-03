@@ -1,0 +1,15 @@
+/* FILE: templates/dynamic_page/static/css/main.css */
+/* 功能: (滚动模式专用) CSS主入口文件。 */
+/*       它使用 @import 导入所有CSS组件和基础样式。 */
+
+/* 1. 基础与变量 (必须最先导入) */
+@import url("base/_variables.css");
+@import url("base/_layout.css");
+
+/* 2. 组件样式 */
+@import url("components/_sidebar.css");
+@import url("components/_hotspot.css");
+@import url("components/_back-to-top-button.css");
+
+/* 3. 工具与响应式 (通常最后导入) */
+@import url("utils/_responsive.css");

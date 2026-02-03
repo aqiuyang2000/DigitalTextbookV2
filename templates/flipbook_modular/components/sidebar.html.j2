@@ -1,0 +1,22 @@
+{# FILE: templates/flipbook_modular/components/sidebar.html.j2 #}
+{# 功能: (双页翻书模式) 定义侧边栏组件的整体HTML结构。 #}
+
+{# 1. 侧边栏的切换按钮 #}
+<button id="sidebar-toggle" aria-label="Toggle Sidebar">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 18L15 12L9 6" />
+    </svg>
+</button>
+
+{# 2. 侧边栏主体 #}
+<nav class="sidebar">
+    <div class="sidebar-content">
+        <h3>目录</h3>
+        
+        {# 
+          这个容器将通过 `nav_html` 变量被填充。
+          `nav_html` 是由Python后端根据项目大纲数据预先渲染好的HTML列表。
+        #}
+        <nav id="outline-nav">{{ nav_html | safe }}</nav>
+    </div>
+</nav>

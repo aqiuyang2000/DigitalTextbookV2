@@ -1,0 +1,13 @@
+{# FILE: templates/dynamic_page/scroll_view/sidebar/sidebar.html.j2 (BUTTON MOVED OUTSIDE) #}
+{# 功能: (滚动模式专用) 定义侧边栏组件的整体HTML结构。 #}
+{# --- 核心修复: 将按钮移出 nav 容器，防止随侧边栏隐藏而消失 --- #}
+{% include "dynamic_page/scroll_view/sidebar/sidebar_header.html.j2" %}
+<nav class="sidebar">
+<div class="sidebar-content">
+<h2>目录</h2>
+{#
+       直接将从Python后端渲染好的 nav_html 插入此处。
+    #}
+    {{ nav_html | safe }}
+</div>
+</nav>

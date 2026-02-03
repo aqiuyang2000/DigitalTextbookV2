@@ -1,0 +1,37 @@
+/* FILE: templates/dynamic_page/static/css/components/_back-to-top-button.css */
+/* 功能: (滚动模式专用) 定义“返回顶部”按钮的样式 */
+
+#back-to-top-btn {
+    display: none; /* Initially hidden */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 44px;
+    height: 44px;
+    background-color: rgba(64, 158, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+
+    /* Animation properties */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#back-to-top-btn.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#back-to-top-btn svg {
+    width: 24px;
+    height: 24px;
+    stroke: white;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+}
